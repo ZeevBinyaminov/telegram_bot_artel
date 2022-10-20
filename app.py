@@ -3,12 +3,14 @@ from aiogram import executor
 
 from loader import bot, dp, ADMIN_ID
 from handlers import client, admin
+from database import sqlite_db
 
 logging.basicConfig(level=logging.INFO)
 
 
 async def on_startup(dp):
     await bot.send_message(chat_id=ADMIN_ID, text='Бот запущен!')
+    sqlite_db.sql_start()
 
 
 async def on_shutdown(dp):

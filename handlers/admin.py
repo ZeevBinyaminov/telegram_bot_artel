@@ -3,7 +3,7 @@ from aiogram.dispatcher.filters import Text
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram import types, Dispatcher
 from loader import dp
-
+from database import sqlite_db
 
 class FSMAdmin(StatesGroup):
     first = State()
@@ -28,7 +28,7 @@ async def get_third(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['third_text'] = message.text
     await message.reply(f"Текст к третьему: {message.text}\nFSM завершила работу")
-    # sql_add(state) # функция для записи в бд
+    await sqlite_db.add_sql_command(state=state, table_name='test')
     await state.finish()
 
 
