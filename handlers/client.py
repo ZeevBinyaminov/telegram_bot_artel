@@ -13,10 +13,10 @@ async def send_welcome(message: types.Message):
 # check mindmap
 class FSMClient(StatesGroup):
     # client branch
-    fullname = State()
     status = State()
     premium = State()
     subject = State()
+    details = State()
     # performer branch
     performer = State()
     subjects = State()

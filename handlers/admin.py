@@ -20,6 +20,7 @@ async def admin_fsm_start(message: types.Message):
 
 async def get_first(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
+        data['user_tag'] = message.from_user.username
         data['first_text'] = message.text
     await FSMAdmin.third.set()
     await message.reply(f"Текст к первому: {message.text}")
