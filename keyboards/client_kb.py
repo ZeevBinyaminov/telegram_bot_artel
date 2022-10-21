@@ -1,2 +1,8 @@
-from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, ReplyKeyboardRemove
+from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+
+#inline keyboard markup
+inkb = InlineKeyboardMarkup()
+
+
+
 

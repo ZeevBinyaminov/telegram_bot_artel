@@ -13,7 +13,7 @@ class FSMAdmin(StatesGroup):
     third = State()
 
 
-async def fsm_start(message: types.Message):
+async def admin_fsm_start(message: types.Message):
     await FSMAdmin.first.set()
     await message.reply('FSM запущена\nВведи текст к первому')
 
@@ -50,10 +50,11 @@ async def sql_select_command(message: types.Message):
 def register_handlers_admin(dp: Dispatcher):
     dp.register_message_handler(cancel_handler, state="*", commands='отмена')
     dp.register_message_handler(cancel_handler, Text(equals='отмена', ignore_case=True), state="*")
-    dp.register_message_handler(fsm_start, commands=['checkfsm'], state=None)
+    dp.register_message_handler(admin_fsm_start, commands=['checkfsm'], state=None)
     dp.register_message_handler(get_first, state=FSMAdmin.first)
     dp.register_message_handler(get_third, state=FSMAdmin.third)
     #
     dp.register_message_handler(sql_select_command, commands=['получить'], state=None)
     dp.register_message_handler(sql_select_command,
-                                Text(contains='получить', ignore_case=True), state=None)#, is_chat_admin=True)
+                                Text(contains='получить', ignore_case=True),
+                                state=None)#, is_chat_admin=True)
