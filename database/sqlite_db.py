@@ -12,7 +12,7 @@ def sql_start():
 
     base.execute("CREATE TABLE IF NOT EXISTS "
                  "orders (user_tag VARCHAR(128), subject VARCHAR(128), "
-                 "status BOOL, details TEXT")
+                 "status BOOL, details TEXT)")
 
     base.execute("CREATE TABLE IF NOT EXISTS "
                  "performers (user_tag VARCHAR(128), subject VARCHAR(128), "
@@ -30,6 +30,18 @@ async def sql_add_command(table_name, state):
 
 
 async def sql_read_command(message: types.Message):
-    message_text, table_name = message.text.split()
-    for ret in cur.execute(f"SELECT * FROM {table_name}").fetchall():
-        await message.answer(ret)
+    message_text, *info = message.text.strip().split()
+
+    if info:
+        table_name = info[0]
+        if table_name in ["orders", "performers", "others"]:
+            table = cur.execute(f"SELECT * FROM {table_name}").fetchall()
+            if table:
+                for row in table:
+                    await message.answer(row)
+            else:
+                await message.answer(f"Таблица \"{table_name}\" пустая")
+        else:
+            await message.answer("Нет такой таблицы")
+    else:
+        await message.answer("Неправильный формат: введите \"получить название таблицы\"")
