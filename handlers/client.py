@@ -86,7 +86,8 @@ async def get_order_details(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['order_details'] = message.text
     await sqlite_db.sql_add_command(state=state, table_name='orders')
-    await message.answer(text="Спасибо, мы свяжемся с Вами в ближайшее время!")
+    await message.answer(text="Спасибо, мы свяжемся с Вами в ближайшее время!",
+                         reply_markup=None)
     await state.finish()
 
 

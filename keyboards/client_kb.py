@@ -20,7 +20,7 @@ subjects_list = ['Математика', 'История', 'Социология
                  'Политология', 'Международные отношения',
                  'Право', 'Государственное управление',
                  'Урабанистика', 'Философия', 'Филология',
-                 'Экономика', 'Программировани', 'Другое']
+                 'Экономика', 'Программирование', 'Другое']
 for subject in subjects_list:
     subjects_inkb.insert(InlineKeyboardButton(text=subject, callback_data=subject))
 subjects_inkb.add(cancel_button)
