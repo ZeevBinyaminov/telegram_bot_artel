@@ -31,7 +31,7 @@ async def get_third(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['third_text'] = message.text
     await message.reply(f"Текст к третьему: {message.text}\nFSM завершила работу")
-    await sqlite_db.sql_add_command(state=state, table_name='test')
+    # await sqlite_db.sql_add_command(state=state, table_name='test')
     await state.finish()
 
 
@@ -58,4 +58,4 @@ def register_handlers_admin(dp: Dispatcher):
     dp.register_message_handler(sql_select_command, commands=['получить'], state=None)
     dp.register_message_handler(sql_select_command,
                                 Text(contains='получить', ignore_case=True),
-                                state=None)#, is_chat_admin=True)
+                                state=None)  # , is_chat_admin=True)

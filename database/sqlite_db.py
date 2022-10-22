@@ -11,15 +11,15 @@ def sql_start():
         print('Database connected!')
 
     base.execute("CREATE TABLE IF NOT EXISTS "
-                 "orders (user_tag VARCHAR(128), subject VARCHAR(128), "
-                 "status BOOL, details TEXT)")
+                 "orders (user_tag VARCHAR(64), is_premium BOOL, "
+                 "subject VARCHAR(128), details TEXT)")
 
     base.execute("CREATE TABLE IF NOT EXISTS "
-                 "performers (user_tag VARCHAR(128), subject VARCHAR(128), "
-                 "skills TEXT, full_name VARCHAR(128))")
+                 "performers (user_tag VARCHAR(64), subject VARCHAR(128), "
+                 "skills TEXT)")
 
     base.execute("CREATE TABLE IF NOT EXISTS "
-                 "others (user_tag VARCHAR(128), suggestions TEXT)")
+                 "others (user_tag VARCHAR(64), suggestions TEXT)")
     base.commit()
 
 
