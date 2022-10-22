@@ -129,7 +129,6 @@ async def get_another_suggestions(message: types.Message, state: FSMContext):
     await state.finish()
 
 
-
 def register_callbacks_and_handlers_client(dp: Dispatcher):
     dp.register_callback_query_handler(cancel_callback, state="*", text='cancel')
     dp.register_message_handler(send_welcome, commands=['start', 'help'])
