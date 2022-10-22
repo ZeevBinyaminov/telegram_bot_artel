@@ -12,6 +12,7 @@ become_other = InlineKeyboardButton(text="Другое",
 cancel_button = InlineKeyboardButton(text="Отмена",
                                      callback_data='cancel')
 
+cancel_inkb = InlineKeyboardMarkup().add(cancel_button)
 user_inkb.add(become_client, become_performer, become_other, cancel_button)
 
 subjects_inkb = InlineKeyboardMarkup(row_width=2)
