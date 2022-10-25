@@ -11,7 +11,7 @@ def sql_start():
         print('Database connected!')
 
     base.execute("CREATE TABLE IF NOT EXISTS "
-                 "orders (user_tag VARCHAR(64), is_premium INT, "
+                 "orders (user_tag VARCHAR(64), "
                  "subject VARCHAR(128), details TEXT)")
 
     base.execute("CREATE TABLE IF NOT EXISTS "

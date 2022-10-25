@@ -15,7 +15,6 @@ async def send_welcome(message: types.Message):
 class FSMClient(StatesGroup):
     # client branch
     user_status = State()
-    is_premium = State()
     client_subject = State()
     client_details = State()
     # performer branch
@@ -33,8 +32,10 @@ async def cancel_callback(callback: types.CallbackQuery, state: FSMContext):
         await callback.answer()
         return
     await state.finish()
-    await callback.message.edit_text(text="Запрос отменен.\nВведите /help, если хотите начать сначала",
+    await callback.message.edit_text(text="Запрос отменен.",
                                      reply_markup=None)
+    await callback.message.answer(text='Хотите начать сначала ?',
+                                  reply_markup=client_kb.main_menu)
     await callback.answer()
 
 
@@ -47,14 +48,6 @@ async def start_client_fsm(callback: types.CallbackQuery, state: FSMContext):
 # client
 async def become_client(callback: types.CallbackQuery, state: FSMContext):
     await start_client_fsm(callback, state)
-    await FSMClient.next()
-    await callback.message.edit_text(text='Хотите заказать обычное или премиальное исполнение ?')
-    await callback.message.edit_reply_markup(reply_markup=client_kb.is_premium_inkb)
-
-
-async def is_premium_order(callback: types.CallbackQuery, state: FSMContext):
-    async with state.proxy() as data:
-        data['is_premium'] = int(callback.data.split()[1])  # change to Bool(True False) if not working
     await FSMClient.next()
     await callback.message.edit_text(text='Выберите предмет')
     await callback.message.edit_reply_markup(reply_markup=client_kb.subjects_inkb)
@@ -135,8 +128,6 @@ def register_callbacks_and_handlers_client(dp: Dispatcher):
     dp.register_message_handler(send_welcome, commands=['start', 'help'])
 
     dp.register_callback_query_handler(become_client, text='become client', state=None)
-    dp.register_callback_query_handler(is_premium_order, Text(startswith='is_premium'),
-                                       state=FSMClient.is_premium)
     dp.register_callback_query_handler(choose_client_subject, state=FSMClient.client_subject)
     dp.register_message_handler(get_another_subject, state=FSMClient.client_subject)
     dp.register_message_handler(get_order_details, state=FSMClient.client_details)

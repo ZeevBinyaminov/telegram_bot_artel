@@ -1,4 +1,10 @@
-from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeyboardMarkup, KeyboardButton, ReplyKeyboardRemove
+
+
+# start menu keyboard
+help_button = KeyboardButton('/help')
+main_menu = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
+main_menu.add(help_button)
 
 # inline keyboard markup
 user_inkb = InlineKeyboardMarkup(row_width=1)
@@ -25,7 +31,5 @@ for subject in subjects_list:
     subjects_inkb.insert(InlineKeyboardButton(text=subject, callback_data=subject))
 subjects_inkb.add(cancel_button)
 
-is_premium_inkb = InlineKeyboardMarkup(row_width=2)
 yes_button = InlineKeyboardButton(text='Премиальное', callback_data='is_premium 1')
 no_button = InlineKeyboardButton(text='Обычное', callback_data='is_premium 0')
-is_premium_inkb.add(yes_button, no_button, cancel_button)
