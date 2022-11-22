@@ -1,10 +1,11 @@
 from aiogram import types, Dispatcher
 from aiogram.dispatcher import FSMContext
-from aiogram.dispatcher.filters import Text
 from aiogram.dispatcher.filters.state import State, StatesGroup
 
 from database import sqlite_db
 from keyboards import client_kb
+
+from loader import bot, ABRAM_ID, DASHA_ID, ADMIN_ID
 
 
 async def send_welcome(message: types.Message):
@@ -56,7 +57,7 @@ async def become_client(callback: types.CallbackQuery, state: FSMContext):
 async def choose_client_subject(callback: types.CallbackQuery, state: FSMContext):
     async with state.proxy() as data:
         data['subject'] = callback.data
-        if data['subject'] != 'Другое':
+        if data['subject'] != 'Другое (укажите Ваш предмет)':
             await FSMClient.next()
             await callback.message.edit_text(text='Конкретизируйте Ваш заказ (сроки, детали, иные пожелания)')
             await callback.message.edit_reply_markup(
@@ -79,6 +80,12 @@ async def get_order_details(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['order_details'] = message.text
     await sqlite_db.sql_add_command(state=state, table_name='orders')
+    # to notify about new orders
+    for admin in (ADMIN_ID, ABRAM_ID, DASHA_ID):
+        await bot.send_message(chat_id=admin,
+                               text="Пользователь %s сделал заказ по предмету \"%s\"."
+                                    "\n\nПодробности заказа: %s" % tuple(data.values()))
+    #
     await message.answer(text="Спасибо, мы свяжемся с Вами в ближайшее время!",
                          reply_markup=None)
     await state.finish()
@@ -102,6 +109,12 @@ async def choose_performer_subject(callback: types.CallbackQuery, state: FSMCont
 async def get_performer_details(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['details'] = message.text
+    # to notify about new performers
+    for admin in (ADMIN_ID, ABRAM_ID, DASHA_ID):
+        await bot.send_message(chat_id=admin,
+                               text="Пользователь %s хочет стать исполнителем по предмету \"%s\"."
+                                    "\n\nТекст заявки: %s" % tuple(data.values()))
+    #
     await sqlite_db.sql_add_command(state=state, table_name='performers')
     await state.finish()
     await message.answer(text="Ожидайте ответа, мы с Вами скоро свяжемся!")
@@ -119,6 +132,12 @@ async def get_another_suggestions(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['suggestions'] = message.text
     await sqlite_db.sql_add_command(state=state, table_name='others')
+    # to notify about new suggestions
+    for admin in (ADMIN_ID, ABRAM_ID, DASHA_ID):
+        await bot.send_message(chat_id=admin,
+                               text="Пользователь %s оставил заявку."
+                                    "\n\nТекст заявки: %s" % tuple(data.values()))
+    #
     await message.answer(text="Ожидайте ответа, мы с Вами скоро свяжемся!")
     await state.finish()
 
