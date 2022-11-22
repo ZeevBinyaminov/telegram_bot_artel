@@ -56,7 +56,7 @@ async def become_client(callback: types.CallbackQuery, state: FSMContext):
 async def choose_client_subject(callback: types.CallbackQuery, state: FSMContext):
     async with state.proxy() as data:
         data['subject'] = callback.data
-        if data['subject'] != 'Другое':
+        if data['subject'] != 'Другое (укажите Ваш предмет)':
             await FSMClient.next()
             await callback.message.edit_text(text='Конкретизируйте Ваш заказ (сроки, детали, иные пожелания)')
             await callback.message.edit_reply_markup(

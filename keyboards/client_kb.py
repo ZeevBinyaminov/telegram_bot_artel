@@ -30,6 +30,3 @@ subjects_list = ['Математика', 'История', 'Социология
 for subject in subjects_list:
     subjects_inkb.insert(InlineKeyboardButton(text=subject, callback_data=subject))
 subjects_inkb.add(cancel_button)
-
-yes_button = InlineKeyboardButton(text='Премиальное', callback_data='is_premium 1')
-no_button = InlineKeyboardButton(text='Обычное', callback_data='is_premium 0')
