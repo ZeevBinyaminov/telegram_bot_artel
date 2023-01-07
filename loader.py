@@ -6,6 +6,8 @@ from os import getenv
 load_dotenv()
 API_TOKEN = getenv("API_TOKEN")
 ADMIN_ID = getenv("ADMIN_ID")
+ABRAM_ID = getenv("ABRAM_ID")
+DASHA_ID = getenv("DASHA_ID")
 
 storage = MemoryStorage()
 

@@ -1,6 +1,6 @@
 import sqlite3 as sq
 from aiogram import types
-from loader import bot
+from loader import bot, ADMIN_ID, ABRAM_ID, DASHA_ID
 
 
 def sql_start():
@@ -23,9 +23,19 @@ def sql_start():
     base.commit()
 
 
+async def notify(data: dict):
+    message_text = "Пришел новый заказ:\n" + '\n'.join(data.values())
+    for admin_id in (ADMIN_ID, ABRAM_ID, DASHA_ID):
+        await bot.send_message(
+            chat_id=admin_id,
+            text=message_text
+        )
+
+
 async def sql_add_command(table_name, state):
     async with state.proxy() as data:
         cur.execute(f"INSERT INTO {table_name} VALUES {tuple(data.values())}")
+        await notify(data=data)
         base.commit()
 
 
