@@ -1,14 +1,20 @@
 from aiogram import types, Dispatcher
 from aiogram.dispatcher import FSMContext
-from aiogram.dispatcher.filters import Text
+# from aiogram.dispatcher.filters import Text
 from aiogram.dispatcher.filters.state import State, StatesGroup
 
 from database import sqlite_db
 from keyboards import client_kb
+from keyboards.client_kb import main_menu
 
 
 async def send_welcome(message: types.Message):
     await message.answer("Привет! Я чат-бот Артель.\nЧем могу помочь?",
+                         reply_markup=client_kb.user_inkb)
+
+
+async def send_help(message: types.Message):
+    await message.answer("Чем могу помочь?",
                          reply_markup=client_kb.user_inkb)
 
 
@@ -80,7 +86,7 @@ async def get_order_details(message: types.Message, state: FSMContext):
         data['order_details'] = message.text
     await sqlite_db.sql_add_command(state=state, table_name='orders')
     await message.answer(text="Спасибо, мы свяжемся с Вами в ближайшее время!",
-                         reply_markup=None)
+                         reply_markup=main_menu)
     await state.finish()
 
 
@@ -104,7 +110,8 @@ async def get_performer_details(message: types.Message, state: FSMContext):
         data['details'] = message.text
     await sqlite_db.sql_add_command(state=state, table_name='performers')
     await state.finish()
-    await message.answer(text="Ожидайте ответа, мы с Вами скоро свяжемся!")
+    await message.answer(text="Ожидайте ответа, мы с Вами скоро свяжемся!",
+                         reply_markup=main_menu)
 
 
 # other
@@ -119,13 +126,15 @@ async def get_another_suggestions(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['suggestions'] = message.text
     await sqlite_db.sql_add_command(state=state, table_name='others')
-    await message.answer(text="Ожидайте ответа, мы с Вами скоро свяжемся!")
+    await message.answer(text="Ожидайте ответа, мы с Вами скоро свяжемся!",
+                         reply_markup=main_menu)
     await state.finish()
 
 
 def register_callbacks_and_handlers_client(dp: Dispatcher):
     dp.register_callback_query_handler(cancel_callback, state="*", text='cancel')
-    dp.register_message_handler(send_welcome, commands=['start', 'help'])
+    dp.register_message_handler(send_welcome, commands=['start'])
+    dp.register_message_handler(send_help, commands=['help'])
 
     dp.register_callback_query_handler(become_client, text='become client', state=None)
     dp.register_callback_query_handler(choose_client_subject, state=FSMClient.client_subject)

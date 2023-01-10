@@ -1,13 +1,8 @@
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Text
-from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram import types, Dispatcher
-from loader import dp
 from database import sqlite_db
 
-
-# check mindmap
-# class FSMAdmin(StatesGroup):
 
 async def cancel_handler(message: types.Message, state=FSMContext):
     current_state = await state.get_state()
