@@ -5,7 +5,8 @@ from aiogram.dispatcher.filters.state import State, StatesGroup
 
 from database import sqlite_db
 from keyboards import client_kb
-from keyboards.client_kb import main_menu
+from keyboards.client_kb import main_menu, price_kb
+from loader import bot
 
 
 async def send_welcome(message: types.Message):
@@ -16,7 +17,6 @@ async def send_welcome(message: types.Message):
 async def send_help(message: types.Message):
     await message.answer("Чем могу помочь?",
                          reply_markup=client_kb.user_inkb)
-
 
 class FSMClient(StatesGroup):
     # client branch
@@ -29,6 +29,10 @@ class FSMClient(StatesGroup):
     # other branch
     suggestions = State()
     # finish state
+
+
+class FSMOrder(StatesGroup):
+    get_price = State()
 
 
 async def cancel_callback(callback: types.CallbackQuery, state: FSMContext):
@@ -77,7 +81,8 @@ async def get_another_subject(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['subject'] = message.text
     await FSMClient.next()
-    await message.answer(text='Конкретизируйте Ваш заказ (сроки, детали, иные пожелания)',
+    await message.answer(text='Конкретизируйте Ваш заказ (сроки, детали, иные пожелания)'
+                              '\nЕсли у Вас есть промокод, можете ввести его в это поле вместе с доп. информацией',
                          reply_markup=client_kb.cancel_inkb)
 
 
@@ -131,6 +136,18 @@ async def get_another_suggestions(message: types.Message, state: FSMContext):
     await state.finish()
 
 
+# offer price
+async def ask_price(message: types.Message, state: FSMContext):
+    await FSMOrder.get_price.set()
+    await message.answer(text="Введите свою цену")
+
+
+async def get_price(message: types.Message, state: FSMContext):
+    price = int(message.text) * 1.25
+    await state.finish()
+    await message.answer(text=f"Ваша цена записана: {price:.0f}")
+
+
 def register_callbacks_and_handlers_client(dp: Dispatcher):
     dp.register_callback_query_handler(cancel_callback, state="*", text='cancel')
     dp.register_message_handler(send_welcome, commands=['start'])
@@ -147,3 +164,6 @@ def register_callbacks_and_handlers_client(dp: Dispatcher):
 
     dp.register_callback_query_handler(become_other, text='become other', state=None)
     dp.register_message_handler(get_another_suggestions, state=FSMClient.suggestions)
+
+    dp.register_message_handler(ask_price, commands=['price'], state=None)
+    dp.register_message_handler(get_price, state=FSMOrder.get_price)

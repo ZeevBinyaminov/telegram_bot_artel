@@ -12,11 +12,13 @@ def sql_start():
 
     base.execute("CREATE TABLE IF NOT EXISTS "
                  "orders (user_tag VARCHAR(64), "
-                 "subject VARCHAR(128), details TEXT)")
+                 "subject VARCHAR(128), details TEXT, "
+                 "order_id INTEGER PRIMARY KEY AUTOINCREMENT)")
+
 
     base.execute("CREATE TABLE IF NOT EXISTS "
                  "performers (user_tag VARCHAR(64), subject VARCHAR(128), "
-                 "skills TEXT)")
+                 "skills TEXT, is_busy INTEGER DEFAULT 0)")
 
     base.execute("CREATE TABLE IF NOT EXISTS "
                  "others (user_tag VARCHAR(64), suggestions TEXT)")
@@ -55,3 +57,10 @@ async def sql_read_command(message: types.Message):
             await message.answer("Нет такой таблицы")
     else:
         await message.answer("Неправильный формат: введите \"получить название таблицы\"")
+
+
+def sql_execute(command):
+    global base, cur
+    base = sq.connect("artel.db")
+    cur = base.cursor(command)
+    base.commit()
