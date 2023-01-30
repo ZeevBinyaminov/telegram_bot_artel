@@ -12,13 +12,13 @@ def sql_start():
 
     base.execute("CREATE TABLE IF NOT EXISTS "
                  "orders (user_tag VARCHAR(64), "
-                 "subject VARCHAR(128), details TEXT, "
+                 "subject VARCHAR(128), order_details TEXT, "
                  "order_id INTEGER PRIMARY KEY AUTOINCREMENT)")
 
 
     base.execute("CREATE TABLE IF NOT EXISTS "
                  "performers (user_tag VARCHAR(64), subject VARCHAR(128), "
-                 "skills TEXT, is_busy INTEGER DEFAULT 0)")
+                 "performer_details TEXT, is_busy INTEGER DEFAULT 0)")
 
     base.execute("CREATE TABLE IF NOT EXISTS "
                  "others (user_tag VARCHAR(64), suggestions TEXT)")
@@ -36,7 +36,8 @@ async def notify(data: dict):
 
 async def sql_add_command(table_name, state):
     async with state.proxy() as data:
-        cur.execute(f"INSERT INTO {table_name} VALUES {tuple(data.values())}")
+        cur.execute(f"INSERT INTO {table_name} {tuple(data.keys())}"
+                    f"VALUES {tuple(data.values())}")
         await notify(data=data)
         base.commit()
 

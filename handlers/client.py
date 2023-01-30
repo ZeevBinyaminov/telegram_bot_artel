@@ -112,7 +112,7 @@ async def choose_performer_subject(callback: types.CallbackQuery, state: FSMCont
 
 async def get_performer_details(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
-        data['details'] = message.text
+        data['performer_details'] = message.text
     await sqlite_db.sql_add_command(state=state, table_name='performers')
     await state.finish()
     await message.answer(text="Ожидайте ответа, мы с Вами скоро свяжемся!",
