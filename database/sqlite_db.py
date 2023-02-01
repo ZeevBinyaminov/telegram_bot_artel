@@ -38,7 +38,7 @@ async def sql_add_command(table_name, state):
     async with state.proxy() as data:
         cur.execute(f"INSERT INTO {table_name} {tuple(data.keys())}"
                     f"VALUES {tuple(data.values())}")
-        await notify(data=data)
+        # await notify(data=data)
         base.commit()
 
 

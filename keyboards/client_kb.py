@@ -27,6 +27,7 @@ subjects_dict = {
     "Юриспруденция": -1001790959600,
     "Экономика": -1001852643314,
     "Политология": -1001679302522,
+    "Социология": -1001608456987,
     "История": -1001804798141,
     "Философия": -1001806183269,
     "Психология": -1001631922451,
@@ -51,8 +52,11 @@ for subject in subjects_dict:
     subjects_inkb.insert(InlineKeyboardButton(text=subject, callback_data=subject))
 subjects_inkb.add(cancel_button)
 
-price_button = KeyboardButton('/price')
-price_kb = ReplyKeyboardMarkup(one_time_keyboard=True).add(price_button)
+
+price_button = InlineKeyboardButton(text="Предложить цену", callback_data="ask price")
+price_inkb = InlineKeyboardMarkup(row_width=1)
+price_inkb.add(price_button)
+
 
 # async def price_keyboard(chat_id, order_id):
 #     price_button = KeyboardButton('/price')
