@@ -1,6 +1,3 @@
-import asyncio
-
-import aiogram.utils.exceptions
 from aiogram import types, Dispatcher
 from aiogram.dispatcher import FSMContext
 # from aiogram.dispatcher.filters import Text
@@ -32,10 +29,11 @@ class FSMClient(StatesGroup):
     # other branch
     suggestions = State()
     # finish state
-
-
-class FSMOrder(StatesGroup):
     get_price = State()
+
+
+# class FSMOrder(StatesGroup):
+#     get_price = State()
 
 
 async def cancel_callback(callback: types.CallbackQuery, state: FSMContext):
@@ -142,17 +140,24 @@ async def get_another_suggestions(message: types.Message, state: FSMContext):
 
 # offer price
 async def ask_price(callback: types.CallbackQuery, state: FSMContext):
-    await FSMOrder.get_price.set()
-    await callback.bot.send_message(text="Введите свою цену", chat_id=callback.from_user.id,
-                                    reply_markup=client_kb.cancel_inkb)
+    await FSMClient.get_price.set()
+    await callback.bot.send_message(text="Введите свою цену", chat_id=callback.from_user.id)
 
 
 async def get_price(message: types.Message, state: FSMContext):
-    price = int(message.text) * 1.25
     async with state.proxy() as data:
-        data[message.from_user.id] = price
-    await message.answer(text=f"Ваша цена записана: {price:.0f}")
-    await state.finish()
+        if not data.get(message.from_user.id):
+            price = int(message.text)
+            price_res = price * 1.25
+            data[message.from_user.id] = price_res
+            await message.answer(text=f"Ваша цена записана: {price:.0f}")
+            # print(sqlite_db.sql_select("SELECT * FROM orders "
+            #                            "ORDER BY order_id DESC "
+            #                            "LIMIT 1"))
+        else:
+            await message.answer(text=f"Вы уже ввели свою цену: {data[message.from_user.id] // 1.25:.0f}")
+        print(data)
+    # await state.finish()
 
 
 def register_callbacks_and_handlers_client(dp: Dispatcher):
@@ -165,6 +170,9 @@ def register_callbacks_and_handlers_client(dp: Dispatcher):
     dp.register_message_handler(get_another_subject, state=FSMClient.client_subject)
     dp.register_message_handler(get_order_details, state=FSMClient.client_details)
 
+    dp.register_callback_query_handler(ask_price, text="ask price", state=None)
+    dp.register_message_handler(get_price, state=None)
+
     dp.register_callback_query_handler(become_performer, text='become performer', state=None)
     dp.register_callback_query_handler(choose_performer_subject, state=FSMClient.performer_subject)
     dp.register_message_handler(get_performer_details, state=FSMClient.performer_experience)
@@ -172,5 +180,4 @@ def register_callbacks_and_handlers_client(dp: Dispatcher):
     dp.register_callback_query_handler(become_other, text='become other', state=None)
     dp.register_message_handler(get_another_suggestions, state=FSMClient.suggestions)
 
-    dp.register_callback_query_handler(ask_price, text="ask price", state=None)
-    dp.register_message_handler(get_price, state=FSMOrder.get_price)
+

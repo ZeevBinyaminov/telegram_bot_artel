@@ -36,8 +36,9 @@ async def notify(data: dict):
 
 async def sql_add_command(table_name, state):
     async with state.proxy() as data:
-        cur.execute(f"INSERT INTO {table_name} {tuple(data.keys())}"
-                    f"VALUES {tuple(data.values())}")
+        cur.execute("INSERT INTO %s %s VALUES %s" % (table_name, tuple(data.keys()), tuple(data.values()))) # добавил срезы
+        # cur.execute(f"INSERT INTO {table_name} {tuple(data.keys())}"
+        #             f"VALUES {tuple(data.values())}")
         # await notify(data=data)
         base.commit()
 
@@ -60,8 +61,6 @@ async def sql_read_command(message: types.Message):
         await message.answer("Неправильный формат: введите \"получить название таблицы\"")
 
 
-def sql_execute(command):
-    global base, cur
-    base = sq.connect("artel.db")
-    cur = base.cursor(command)
-    base.commit()
+def sql_select(command):
+    return cur.execute(command).fetchmany(1)
+
