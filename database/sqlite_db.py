@@ -11,17 +11,29 @@ def sql_start():
         print('Database connected!')
 
     base.execute("CREATE TABLE IF NOT EXISTS "
-                 "orders (user_tag VARCHAR(64), "
-                 "subject VARCHAR(128), order_details TEXT, "
-                 "order_id INTEGER PRIMARY KEY AUTOINCREMENT)")
-
+                 "orders (user_tag VARCHAR(64) NOT NULL, "
+                 "subject VARCHAR(128) NOT NULL, order_details TEXT, "
+                 "order_id INTEGER)")
 
     base.execute("CREATE TABLE IF NOT EXISTS "
-                 "performers (user_tag VARCHAR(64), subject VARCHAR(128), "
+                 "performers (user_tag VARCHAR(64) NOT NULL, "
+                 "subject VARCHAR(128) NOT NULL, "
                  "performer_details TEXT, is_busy INTEGER DEFAULT 0)")
 
     base.execute("CREATE TABLE IF NOT EXISTS "
-                 "others (user_tag VARCHAR(64), suggestions TEXT)")
+                 "others (user_tag VARCHAR(64) NOT NULL, "
+                 "suggestions TEXT)")
+
+    base.execute("CREATE TABLE IF NOT EXISTS "
+                 "perf_description "
+                 "(performer_id VARCHAR(64) NOT NULL, "
+                 "description TEXT NOT NULL)")
+
+    base.execute("CREATE TABLE IF NOT EXISTS "
+                 "chats (chat_id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                 "chat_one VARHCAR(64) NOT NULL, "
+                 "chat_two VARHCAR(64) NOT NULL)")
+
     base.commit()
 
 
@@ -36,9 +48,9 @@ async def notify(data: dict):
 
 async def sql_add_command(table_name, state):
     async with state.proxy() as data:
-        cur.execute("INSERT INTO %s %s VALUES %s" % (table_name, tuple(data.keys()), tuple(data.values()))) # добавил срезы
-        # cur.execute(f"INSERT INTO {table_name} {tuple(data.keys())}"
-        #             f"VALUES {tuple(data.values())}")
+        cur.execute("INSERT INTO %s %s VALUES %s" %
+                    (table_name, tuple(data.keys()), tuple(data.values())))
+
         # await notify(data=data)
         base.commit()
 

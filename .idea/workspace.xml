@@ -5,12 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0d06a5ba-bbb8-4f42-aa32-85d72d5abafb" name="Changes" comment="price fsm doesn't work">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/telegram_bot_artel.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/anonym_chat/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/anonym_chat/chat.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/artel.db" beforeDir="false" afterPath="$PROJECT_DIR$/artel.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database/sqlite_db.py" beforeDir="false" afterPath="$PROJECT_DIR$/database/sqlite_db.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/handlers/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/admin.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/handlers/client.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/client.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/keyboards/client_kb.py" beforeDir="false" afterPath="$PROJECT_DIR$/keyboards/client_kb.py" afterDir="false" />
     </list>
@@ -89,7 +89,10 @@
       <workItem from="1675266803327" duration="920000" />
       <workItem from="1675272249994" duration="9887000" />
       <workItem from="1675540905304" duration="973000" />
-      <workItem from="1675670275374" duration="4252000" />
+      <workItem from="1675670275374" duration="4294000" />
+      <workItem from="1675701384113" duration="9894000" />
+      <workItem from="1675773736273" duration="8580000" />
+      <workItem from="1675846665883" duration="15122000" />
     </task>
     <task id="LOCAL-00001" summary="inline keyboard markup fixes + removing extra imports">
       <created>1673372130253</created>
@@ -124,5 +127,7 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/telegram_bot_artel$sqlite_db.coverage" NAME="sqlite_db Coverage Results" MODIFIED="1673133079350" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/database" />
+    <SUITE FILE_PATH="coverage/telegram_bot_artel$app.coverage" NAME="app Coverage Results" MODIFIED="1675704530830" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/telegram_bot_artel$client.coverage" NAME="client Coverage Results" MODIFIED="1675704504876" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/handlers" />
   </component>
 </project>

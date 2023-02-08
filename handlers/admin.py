@@ -18,10 +18,9 @@ async def sql_select_command(message: types.Message):
 
 
 def register_handlers_admin(dp: Dispatcher):
+    dp.register_message_handler(sql_select_command, commands=['получить'], state=None)
+    dp.register_message_handler(sql_select_command, Text(contains='получить', ignore_case=True), state=None)
+
     dp.register_message_handler(cancel_handler, state="*", commands='отмена')
     dp.register_message_handler(cancel_handler, Text(equals='отмена', ignore_case=True), state="*")
 
-    dp.register_message_handler(sql_select_command, commands=['получить'], state=None)
-    dp.register_message_handler(sql_select_command,
-                                Text(contains='получить', ignore_case=True),
-                                state=None)  # , is_chat_admin=True)

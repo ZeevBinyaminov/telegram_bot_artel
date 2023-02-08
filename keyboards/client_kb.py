@@ -52,22 +52,18 @@ for subject in subjects_dict:
     subjects_inkb.insert(InlineKeyboardButton(text=subject, callback_data=subject))
 subjects_inkb.add(cancel_button)
 
-
 price_button = InlineKeyboardButton(text="Предложить цену", callback_data="ask price")
 price_inkb = InlineKeyboardMarkup(row_width=1)
 price_inkb.add(price_button)
 
-# async def price_keyboard(chat_id, order_id):
-#     price_button = KeyboardButton('/price')
-#     price_kb = ReplyKeyboardMarkup().add(price_button)
-#     await bot.send_message(chat_id=chat_id,
-#                            text=sql_execute(f"SELECT * FROM orders WHERE order_id = {order_id}").fetchmany(1),
-#                            reply_markup=price_kb)
+reply_button = InlineKeyboardButton(text="Откликнуться", callback_data="reply")
+reply_inkb = InlineKeyboardMarkup()
+reply_inkb.add(reply_button)
 
 
-#
-#
-# async def send_order_form(subject_name, order_info: tuple):
-#     bot.send_message(text='Новый заказ, детали:\n' + order_info[2],
-#                      chat_id=subjects_id[subject_name],
-#                      reply_markup=price_keyboard)
+async def send_performer_suggestion(client_id, text):
+    accept_button = InlineKeyboardButton(text=f"Принять", callback_data="accept price")
+    deny_button = InlineKeyboardButton(text=f"Отклонить", callback_data="deny price")
+    suggestion_inkb = InlineKeyboardMarkup()
+    suggestion_inkb.add(accept_button, deny_button)
+    await bot.send_message(text=text, reply_markup=suggestion_inkb, chat_id=client_id)
