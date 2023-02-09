@@ -5,7 +5,7 @@ from aiogram.dispatcher.filters.state import State, StatesGroup
 
 from database import sqlite_db
 from keyboards import client_kb
-from loader import bot, ADMIN_ID
+from loader import bot
 
 
 async def send_welcome(message: types.Message):
@@ -20,7 +20,9 @@ async def send_help(message: types.Message):
 
 async def send_message(message: types.Message):
     if message.chat.type == "private":
-        await bot.send_message(text=message.text, chat_id=ADMIN_ID)
+        chat_id = sqlite_db.get_active_chat(message.from_user.id)
+        if chat_id:
+            await bot.send_message(text=message.text, chat_id=chat_id)
 
 
 class FSMClient(StatesGroup):
@@ -95,11 +97,10 @@ async def get_order_details(message: types.Message, state: FSMContext):
         message_id = message.message_id
         subject_id = client_kb.subjects_dict[data['subject']]
         data['order_details'] = message.text
-        data['order_id'] = order_id
-        await sqlite_db.sql_add_command(state=state, table_name='orders')
-
+        data['order_id'] = order_id // 2
         data['message_id'] = message_id
-        data['subject_id'] = subject_id
+    await sqlite_db.sql_add_command(state=state, table_name='orders')
+    # data['subject_id'] = subject_id
 
     await message.answer(text="Спасибо, мы свяжемся с Вами в ближайшее время!",
                          reply_markup=client_kb.main_menu)
@@ -112,6 +113,14 @@ async def get_order_details(message: types.Message, state: FSMContext):
 
 # offer price
 async def reply_to_order(callback: types.CallbackQuery):
+    performer_id = callback.from_user.id
+    ## if user is not performer
+    is_busy = sqlite_db.sql_select("SELECT is_busy "
+                                   "FROM performers "
+                                   "WHERE performer_id = ?", (performer_id,))[0][0]
+    if bool(is_busy):
+        await callback.message.answer("У Вас есть текущий заказ")
+        return
     await callback.bot.send_message(text=callback.message.text,
                                     reply_markup=client_kb.price_inkb,
                                     chat_id=callback.from_user.id)
@@ -141,8 +150,8 @@ async def get_price(message: types.Message, state: FSMContext):
 
         description = sqlite_db.sql_select("SELECT description "
                                            "FROM perf_description "
-                                           "WHERE performer_id = %s" % data['performer_id'])[0][0]
-        text = f"{data['performer_id'] * 2}: {description}\nЦена: {price_res}"
+                                           "WHERE performer_id = ?", (data['performer_id'],))[0][0]
+        text = f"{data['performer_id'] * 2}: {description}\nЦена: {price_res:.0f}"
         await client_kb.send_performer_suggestion(client_id=data['order_id'],
                                                   text=text)
     await state.finish()
@@ -150,17 +159,54 @@ async def get_price(message: types.Message, state: FSMContext):
 
 async def accept_price(callback: types.CallbackQuery):
     performer_id = int(callback.message.text.split(":")[0]) // 2
-    # create chat
+    order_id = callback.from_user.id
+
+    print(sqlite_db.sql_select("SELECT subject, message_id, order_details "
+                                "FROM orders "
+                                "WHERE order_id = ?", (order_id,)))
     # edit message in a subject chat
+    subject, message_id, details = sqlite_db.sql_select("SELECT subject, message_id, order_details "
+                                                        "FROM orders "
+                                                        "WHERE order_id = ?", (order_id,))[0]
+
+    # subject_id = client_kb.subjects_dict[subject]
+    # await bot.edit_message_text(chat_id=subject_id, message_id=message_id, text="В процессе")
+    # await bot.edit_message_text(inline_message_id=message_id, chat_id=subject_id, text="в процессе")
+
+    sqlite_db.sql_execute("UPDATE performers "
+                          "SET is_busy = 1 "
+                          "WHERE performer_id = ?", (performer_id,))
+    # create chat
+    sqlite_db.sql_execute("DELETE FROM orders "
+                          "WHERE order_id = ?", (order_id,))
+
+    sqlite_db.sql_execute("INSERT INTO chats (chat_one, chat_two)"
+                          "VALUES (?, ?)", (order_id, performer_id,))
+
     # send notification to admins and client and performer like
+    await bot.send_message(chat_id=performer_id,
+                           text=f"Вы получили заказ:\n{details}.\nЧат с заказчиком открыт",
+                           reply_markup=client_kb.cancel_order_inkb)
+
     await callback.message.edit_reply_markup()
-    await callback.message.answer(text="Переносим Вас в чат с исполнителем")
+    await callback.message.answer(text="Пожалуйста, оплатите 50% от суммы по номеру (номер)\n"
+                                       "Переносим Вас в чат с исполнителем",
+                                  reply_markup=client_kb.cancel_order_inkb)
 
 
 async def deny_price(callback: types.CallbackQuery):
-    # performer_id = int(callback.message.text.split(":")[0]) // 2
     await callback.message.edit_text(text="Ожидайте следующих заявок от исполнителей",
                                      reply_markup=None)
+
+
+async def close_chat(callback: types.CallbackQuery):
+    chat_id = sqlite_db.get_active_chat(callback.from_user.id)
+    await callback.message.edit_reply_markup()
+    await callback.message.answer(text="Чат закрыт", reply_markup=client_kb.main_menu)
+    await bot.send_message(chat_id=chat_id, text="Чат закрыт", reply_markup=client_kb.main_menu)
+
+    sqlite_db.sql_execute("DELETE FROM chats "
+                          "WHERE chat_one = ? OR chat_two = ?", (chat_id, chat_id))
 
 
 # performer
@@ -173,6 +219,7 @@ async def become_performer(callback: types.CallbackQuery, state: FSMContext):
 
 async def choose_performer_subject(callback: types.CallbackQuery, state: FSMContext):
     async with state.proxy() as data:
+        data['performer_id'] = callback.from_user.id
         data['subject'] = callback.data
     await FSMClient.performer_experience.set()
     await callback.message.edit_text("Опишите свой опыт и навыки", reply_markup=client_kb.cancel_inkb)
@@ -208,6 +255,7 @@ def register_callbacks_and_handlers_client(dp: Dispatcher):
     dp.register_callback_query_handler(cancel_callback, state="*", text='cancel')
     dp.register_message_handler(send_welcome, commands=['start'])
     dp.register_message_handler(send_help, commands=['help'])
+    dp.register_message_handler(send_message, content_types=['text'])
 
     dp.register_callback_query_handler(become_client, text='become client', state=None)
     dp.register_callback_query_handler(choose_client_subject, state=FSMClient.client_subject)
@@ -218,14 +266,14 @@ def register_callbacks_and_handlers_client(dp: Dispatcher):
     dp.register_callback_query_handler(ask_price, text="ask price", state=None)
     dp.register_message_handler(get_price, state=FSMOrder.get_price)
 
+    dp.register_callback_query_handler(accept_price, text='accept price')
+    dp.register_callback_query_handler(deny_price, text='deny price')
+
+    dp.register_callback_query_handler(close_chat, text='close chat')
+
     dp.register_callback_query_handler(become_performer, text='become performer', state=None)
     dp.register_callback_query_handler(choose_performer_subject, state=FSMClient.performer_subject)
     dp.register_message_handler(get_performer_details, state=FSMClient.performer_experience)
 
     dp.register_callback_query_handler(become_other, text='become other', state=None)
     dp.register_message_handler(get_another_suggestions, state=FSMClient.suggestions)
-
-    dp.register_message_handler(send_message, content_types=['text'])
-
-    dp.register_callback_query_handler(accept_price, text='accept price')
-    dp.register_callback_query_handler(deny_price, text='deny price')

@@ -60,6 +60,10 @@ reply_button = InlineKeyboardButton(text="Откликнуться", callback_da
 reply_inkb = InlineKeyboardMarkup()
 reply_inkb.add(reply_button)
 
+cancel_order_inkb = InlineKeyboardMarkup()
+cancel_order_button = InlineKeyboardButton(text="Закрыть чат", callback_data="close chat")
+cancel_order_inkb.add(cancel_order_button)
+
 
 async def send_performer_suggestion(client_id, text):
     accept_button = InlineKeyboardButton(text=f"Принять", callback_data="accept price")

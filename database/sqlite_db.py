@@ -1,6 +1,6 @@
 import sqlite3 as sq
 from aiogram import types
-from loader import bot, ADMIN_ID, ABRAM_ID, DASHA_ID
+from loader import bot, ADMIN_ID, ABRAM_ID, DASHA_ID, KIRILL_ID
 
 
 def sql_start():
@@ -13,10 +13,11 @@ def sql_start():
     base.execute("CREATE TABLE IF NOT EXISTS "
                  "orders (user_tag VARCHAR(64) NOT NULL, "
                  "subject VARCHAR(128) NOT NULL, order_details TEXT, "
-                 "order_id INTEGER)")
+                 "order_id VARCHAR(64), message_id VARCHAR(64))")
 
     base.execute("CREATE TABLE IF NOT EXISTS "
                  "performers (user_tag VARCHAR(64) NOT NULL, "
+                 "performer_id VARCHAR(64), "
                  "subject VARCHAR(128) NOT NULL, "
                  "performer_details TEXT, is_busy INTEGER DEFAULT 0)")
 
@@ -39,7 +40,7 @@ def sql_start():
 
 async def notify(data: dict):
     message_text = "Пришел новый заказ:\n" + '\n'.join(data.values())
-    for admin_id in (ADMIN_ID, ABRAM_ID, DASHA_ID):
+    for admin_id in (ADMIN_ID, ABRAM_ID, DASHA_ID, KIRILL_ID):
         await bot.send_message(
             chat_id=admin_id,
             text=message_text
@@ -73,6 +74,21 @@ async def sql_read_command(message: types.Message):
         await message.answer("Неправильный формат: введите \"получить название таблицы\"")
 
 
-def sql_select(command):
-    return cur.execute(command).fetchmany(1)
+def sql_select(command, values):
+    return cur.execute(command, values).fetchmany(1)
 
+
+def sql_execute(command, values):
+    cur.execute(command, values)
+    cur.connection.commit()
+
+
+def get_active_chat(user_id):
+    chat_id = sql_select("SELECT chat_two "
+                         "FROM chats "
+                         "WHERE chat_one = ?", (user_id,))
+    if not chat_id:
+        chat_id = sql_select("SELECT chat_one "
+                             "FROM chats "
+                             "WHERE chat_two = ?", (user_id,))
+    return chat_id[0][0] if chat_id else 0

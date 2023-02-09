@@ -8,6 +8,7 @@ API_TOKEN = getenv("API_TOKEN")
 ADMIN_ID = getenv("ADMIN_ID")
 ABRAM_ID = getenv("ABRAM_ID")
 DASHA_ID = getenv("DASHA_ID")
+KIRILL_ID = getenv("KIRILL_ID")
 
 storage = MemoryStorage()
 
