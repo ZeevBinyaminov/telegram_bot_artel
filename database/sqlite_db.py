@@ -1,25 +1,29 @@
-import sqlite3 as sq
+import json
+
 from aiogram import types
-from loader import bot, ADMIN_ID, ABRAM_ID, DASHA_ID, KIRILL_ID
+
+from loader import bot, DASHA_ID
+from database import database
+
+database = database.Database("artel.db")
+base = database.base
+cur = database.cursor
 
 
 def sql_start():
-    global base, cur
-    base = sq.connect("artel.db")
-    cur = base.cursor()
-    if base:
-        print('Database connected!')
-
     base.execute("CREATE TABLE IF NOT EXISTS "
-                 "orders (user_tag VARCHAR(64) NOT NULL, "
-                 "subject VARCHAR(128) NOT NULL, order_details TEXT, "
-                 "order_id VARCHAR(64), message_id VARCHAR(64))")
+                 "orders (user_tag VARCHAR(64) NOT NULL,"
+                 "subject VARCHAR(128) NOT NULL,"
+                 "order_details TEXT,"
+                 "order_id VARCHAR(64),"
+                 "message_id VARCHAR(64))")
 
     base.execute("CREATE TABLE IF NOT EXISTS "
                  "performers (user_tag VARCHAR(64) NOT NULL, "
                  "performer_id VARCHAR(64), "
                  "subject VARCHAR(128) NOT NULL, "
-                 "performer_details TEXT, is_busy INTEGER DEFAULT 0)")
+                 "performer_details TEXT,"
+                 "is_busy INTEGER DEFAULT 0)")
 
     base.execute("CREATE TABLE IF NOT EXISTS "
                  "others (user_tag VARCHAR(64) NOT NULL, "
@@ -38,9 +42,9 @@ def sql_start():
     base.commit()
 
 
-async def notify(data: dict):
-    message_text = "Пришел новый заказ:\n" + '\n'.join(data.values())
-    for admin_id in (ADMIN_ID, ABRAM_ID, DASHA_ID, KIRILL_ID):
+async def notify(data):
+    message_text = "Пришел новый заказ:\n" + json.dumps(dict(data), indent=4, ensure_ascii=False)
+    for admin_id in [DASHA_ID]:  # (ADMIN_ID, ABRAM_ID, DASHA_ID, KIRILL_ID):
         await bot.send_message(
             chat_id=admin_id,
             text=message_text
@@ -49,6 +53,8 @@ async def notify(data: dict):
 
 async def sql_add_command(table_name, state):
     async with state.proxy() as data:
+        print("INSERT INTO %s %s VALUES %s" % (table_name, tuple(data.keys()), tuple(data.values())))
+
         cur.execute("INSERT INTO %s %s VALUES %s" %
                     (table_name, tuple(data.keys()), tuple(data.values())))
 

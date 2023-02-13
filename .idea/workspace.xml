@@ -5,11 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0d06a5ba-bbb8-4f42-aa32-85d72d5abafb" name="Changes" comment="price fsm doesn't work">
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/database/database.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/artel.db" beforeDir="false" afterPath="$PROJECT_DIR$/artel.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/database/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database/sqlite_db.py" beforeDir="false" afterPath="$PROJECT_DIR$/database/sqlite_db.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/handlers/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/admin.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/handlers/client.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/client.py" afterDir="false" />
@@ -37,6 +38,17 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="ProblemsViewState">
+    <hideBySeverity>
+      <option value="11" />
+      <option value="12" />
+      <option value="13" />
+      <option value="14" />
+      <option value="15" />
+      <option value="16" />
+    </hideBySeverity>
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectId" id="2Js2i6eM0cC4vMHya79pxxhzmNy" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -53,6 +65,7 @@
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
+    "run.code.analysis.last.selected.profile": "aDefault",
     "settings.editor.selected.configurable": "terminal",
     "vue.rearranger.settings.migration": "true"
   },
@@ -101,7 +114,10 @@
       <workItem from="1675701384113" duration="9894000" />
       <workItem from="1675773736273" duration="8580000" />
       <workItem from="1675846665883" duration="15352000" />
-      <workItem from="1675942289405" duration="21885000" />
+      <workItem from="1675942289405" duration="22023000" />
+      <workItem from="1676029517594" duration="8063000" />
+      <workItem from="1676151587053" duration="2825000" />
+      <workItem from="1676209316433" duration="8698000" />
     </task>
     <task id="LOCAL-00001" summary="inline keyboard markup fixes + removing extra imports">
       <created>1673372130253</created>
