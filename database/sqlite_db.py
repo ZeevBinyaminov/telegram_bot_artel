@@ -53,8 +53,6 @@ async def notify(data):
 
 async def sql_add_command(table_name, state):
     async with state.proxy() as data:
-        print("INSERT INTO %s %s VALUES %s" % (table_name, tuple(data.keys()), tuple(data.values())))
-
         cur.execute("INSERT INTO %s %s VALUES %s" %
                     (table_name, tuple(data.keys()), tuple(data.values())))
 

@@ -5,17 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0d06a5ba-bbb8-4f42-aa32-85d72d5abafb" name="Changes" comment="price fsm doesn't work">
-      <change afterPath="$PROJECT_DIR$/database/database.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/artel.db" beforeDir="false" afterPath="$PROJECT_DIR$/artel.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/database/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database/sqlite_db.py" beforeDir="false" afterPath="$PROJECT_DIR$/database/sqlite_db.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/handlers/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/admin.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/handlers/client.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/client.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/keyboards/client_kb.py" beforeDir="false" afterPath="$PROJECT_DIR$/keyboards/client_kb.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/loader.py" beforeDir="false" afterPath="$PROJECT_DIR$/loader.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,27 +48,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "/Users/zeevbin/Desktop/test",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "run.code.analysis.last.selected.profile": "aDefault",
-    "settings.editor.selected.configurable": "terminal",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/zeevbin/Desktop/test&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;aDefault&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;terminal&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "sqlite"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;sqlite&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$USER_HOME$/Desktop/test" />
@@ -118,6 +112,9 @@
       <workItem from="1676029517594" duration="8063000" />
       <workItem from="1676151587053" duration="2825000" />
       <workItem from="1676209316433" duration="8698000" />
+      <workItem from="1676246500176" duration="1101000" />
+      <workItem from="1676277149212" duration="2963000" />
+      <workItem from="1676305494152" duration="3815000" />
     </task>
     <task id="LOCAL-00001" summary="inline keyboard markup fixes + removing extra imports">
       <created>1673372130253</created>

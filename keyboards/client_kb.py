@@ -1,4 +1,5 @@
-from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeyboardMarkup, KeyboardButton
+from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton,\
+    ReplyKeyboardMarkup, KeyboardButton, ReplyKeyboardRemove
 
 from loader import bot
 
@@ -6,6 +7,7 @@ from loader import bot
 help_button = KeyboardButton('/help')
 main_menu = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
 main_menu.add(help_button)
+
 
 # inline keyboard markup
 user_inkb = InlineKeyboardMarkup(row_width=1)
@@ -60,9 +62,10 @@ reply_button = InlineKeyboardButton(text="Откликнуться", callback_da
 reply_inkb = InlineKeyboardMarkup()
 reply_inkb.add(reply_button)
 
-cancel_order_inkb = InlineKeyboardMarkup()
-cancel_order_button = InlineKeyboardButton(text="Закрыть чат", callback_data="close chat")
-cancel_order_inkb.add(cancel_order_button)
+
+close_chat_button = KeyboardButton('/Закрыть_чат')
+close_chat_kb = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
+close_chat_kb.add(close_chat_button)
 
 
 async def send_performer_suggestion(client_id, text):
