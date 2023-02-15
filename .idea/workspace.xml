@@ -5,11 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0d06a5ba-bbb8-4f42-aa32-85d72d5abafb" name="Changes" comment="price fsm doesn't work">
+      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/artel.db" beforeDir="false" afterPath="$PROJECT_DIR$/artel.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/database/database.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database/sqlite_db.py" beforeDir="false" afterPath="$PROJECT_DIR$/database/sqlite_db.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/handlers/client.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/client.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/keyboards/client_kb.py" beforeDir="false" afterPath="$PROJECT_DIR$/keyboards/client_kb.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -114,7 +116,10 @@
       <workItem from="1676209316433" duration="8698000" />
       <workItem from="1676246500176" duration="1101000" />
       <workItem from="1676277149212" duration="2963000" />
-      <workItem from="1676305494152" duration="3815000" />
+      <workItem from="1676305494152" duration="3926000" />
+      <workItem from="1676375364614" duration="1104000" />
+      <workItem from="1676381082024" duration="544000" />
+      <workItem from="1676474263520" duration="6948000" />
     </task>
     <task id="LOCAL-00001" summary="inline keyboard markup fixes + removing extra imports">
       <created>1673372130253</created>

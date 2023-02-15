@@ -2,7 +2,7 @@ import logging
 
 from aiogram import executor
 
-from database import sqlite_db
+from database import database
 from handlers import client, admin
 from loader import bot, dp, ADMIN_ID
 
@@ -11,7 +11,7 @@ logging.basicConfig(level=logging.INFO)
 
 async def on_startup(dp):
     await bot.send_message(chat_id=ADMIN_ID, text='Бот запущен!')
-    sqlite_db.sql_start()
+    database.database.create_database()
 
 
 async def on_shutdown(dp):
