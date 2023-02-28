@@ -25,7 +25,7 @@ cancel_inkb = InlineKeyboardMarkup().add(cancel_button)
 user_inkb.add(become_client, become_performer, become_other)
 
 subjects_dict = {
-    "проверка": -1001674582859,
+    "test": -1001674582859,
     "Юриспруденция": -1001790959600,
     "Экономика": -1001852643314,
     "Политология": -1001679302522,
@@ -73,4 +73,5 @@ async def send_performer_suggestion(client_id, text):
     deny_button = InlineKeyboardButton(text=f"Отклонить", callback_data="deny price")
     suggestion_inkb = InlineKeyboardMarkup()
     suggestion_inkb.add(accept_button, deny_button)
+    # № знак номера
     await bot.send_message(text=text, reply_markup=suggestion_inkb, chat_id=client_id)

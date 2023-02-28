@@ -18,8 +18,9 @@ async def on_shutdown(dp):
     await bot.send_message(chat_id=ADMIN_ID, text='Бот выключен!')
 
 
-client.register_callbacks_and_handlers_client(dp)
 admin.register_handlers_admin(dp)
+client.register_callbacks_and_handlers_client(dp)
+
 
 if __name__ == '__main__':
     executor.start_polling(dp,

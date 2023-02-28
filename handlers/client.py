@@ -3,6 +3,7 @@ import re
 from aiogram import types, Dispatcher
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
+from aiogram.dispatcher.filters import Text
 
 from database import database
 from keyboards import client_kb
@@ -70,6 +71,15 @@ class FSMClient(StatesGroup):
 
 class FSMOrder(StatesGroup):
     get_price = State()
+
+
+async def cancel_handler(message: types.Message, state=FSMContext):
+    current_state = await state.get_state()
+    if current_state is None:
+        await message.reply("Нечего отменять")
+        return
+    await state.finish()
+    await message.reply("Заказ отменен.\nЕсли хотите начать сначала, введите /start")
 
 
 async def cancel_callback(callback: types.CallbackQuery, state: FSMContext):
@@ -196,9 +206,10 @@ async def accept_price(callback: types.CallbackQuery):
     subject, message_id, details = database.database.get_order_info(order_id=order_id)
 
     subject_id = client_kb.subjects_dict[subject]
-    # await bot.edit_message_text(chat_id=subject_id,
-    #                             message_id=message_id,
-    #                             text=f"{details} (в процессе)",)
+    message_id = int(message_id)
+    await bot.edit_message_text(chat_id=subject_id,
+                                message_id=message_id,
+                                text=f"{details} (в процессе)",)
 
     database.database.keep_performer(performer_id=performer_id)
     database.database.create_chat(order_id=order_id, performer_id=performer_id)
@@ -271,6 +282,9 @@ async def get_another_suggestions(message: types.Message, state: FSMContext):
 
 def register_callbacks_and_handlers_client(dp: Dispatcher):
     dp.register_callback_query_handler(cancel_callback, state="*", text='cancel')
+    dp.register_message_handler(cancel_handler, state="*", commands='отмена')
+    dp.register_message_handler(cancel_handler, Text(equals='отмена', ignore_case=True), state="*")
+
     dp.register_message_handler(send_welcome, commands=['start'])
     dp.register_message_handler(send_help, commands=['help'])
     dp.register_message_handler(close_chat, commands=['Закрыть_чат'])

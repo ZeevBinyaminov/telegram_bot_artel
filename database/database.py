@@ -1,7 +1,7 @@
 import json
 import sqlite3
 
-from loader import bot, ADMIN_ID  # , ABRAM_ID, DASHA_ID, KIRILL_ID
+from loader import bot, ABRAM_ID, DASHA_ID, KIRILL_ID
 
 
 class Database:
@@ -99,7 +99,7 @@ class Database:
 
 async def notify(data):
     message_text = "Пришел новый заказ:\n" + json.dumps(dict(data), indent=4, ensure_ascii=False)
-    for admin_id in [ADMIN_ID]:  # , DASHA_ID, ABRAM_ID, DASHA_ID, KIRILL_ID):
+    for admin_id in [ABRAM_ID, DASHA_ID, KIRILL_ID]:
         await bot.send_message(
             chat_id=admin_id,
             text=message_text

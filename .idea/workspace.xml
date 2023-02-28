@@ -9,9 +9,12 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/artel.db" beforeDir="false" afterPath="$PROJECT_DIR$/artel.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/database/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/database/database.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/sqlite_db.py" beforeDir="false" afterPath="$PROJECT_DIR$/database/sqlite_db.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/sqlite_db.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/handlers/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/admin.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/handlers/client.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/client.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/keyboards/client_kb.py" beforeDir="false" afterPath="$PROJECT_DIR$/keyboards/client_kb.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -120,6 +123,14 @@
       <workItem from="1676375364614" duration="1104000" />
       <workItem from="1676381082024" duration="544000" />
       <workItem from="1676474263520" duration="6948000" />
+      <workItem from="1676481235287" duration="48000" />
+      <workItem from="1676495867559" duration="475000" />
+      <workItem from="1676583592578" duration="118000" />
+      <workItem from="1676657234667" duration="1376000" />
+      <workItem from="1676721638520" duration="1770000" />
+      <workItem from="1677371641001" duration="19000" />
+      <workItem from="1677481561686" duration="749000" />
+      <workItem from="1677485494016" duration="1306000" />
     </task>
     <task id="LOCAL-00001" summary="inline keyboard markup fixes + removing extra imports">
       <created>1673372130253</created>

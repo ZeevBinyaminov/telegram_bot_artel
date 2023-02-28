@@ -1,1 +1,1 @@
-from database import sqlite_db, database
+from database import database
